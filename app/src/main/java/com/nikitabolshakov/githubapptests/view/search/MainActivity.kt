@@ -1,15 +1,15 @@
-package com.nikitabolshakov.githubapptests.view
+package com.nikitabolshakov.githubapptests.view.search
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.nikitabolshakov.githubapptests.R
 import com.nikitabolshakov.githubapptests.model.SearchResult
-import com.nikitabolshakov.githubapptests.presenter.PresenterContract
-import com.nikitabolshakov.githubapptests.presenter.SearchPresenter
+import com.nikitabolshakov.githubapptests.presenter.search.PresenterSearchContract
+import com.nikitabolshakov.githubapptests.presenter.search.SearchPresenter
 import com.nikitabolshakov.githubapptests.repository.GitHubApi
 import com.nikitabolshakov.githubapptests.repository.GitHubRepository
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,10 +17,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
-class MainActivity : AppCompatActivity(), ViewContract {
+class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     private val adapter = SearchResultAdapter()
-    private val presenter: PresenterContract = SearchPresenter(this, createRepository())
+    private val presenter: PresenterSearchContract = SearchPresenter(this, createRepository())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
