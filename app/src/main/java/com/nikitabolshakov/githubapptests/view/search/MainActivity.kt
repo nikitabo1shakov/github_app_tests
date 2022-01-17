@@ -8,10 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.nikitabolshakov.githubapptests.R
 import com.nikitabolshakov.githubapptests.model.SearchResult
+import com.nikitabolshakov.githubapptests.presenter.RepositoryContract
 import com.nikitabolshakov.githubapptests.presenter.search.PresenterSearchContract
 import com.nikitabolshakov.githubapptests.presenter.search.SearchPresenter
+import com.nikitabolshakov.githubapptests.repository.FakeGitHubRepository
 import com.nikitabolshakov.githubapptests.repository.GitHubApi
 import com.nikitabolshakov.githubapptests.repository.GitHubRepository
+import com.nikitabolshakov.githubapptests.view.details.DetailsActivity
+import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,6 +25,7 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     private val adapter = SearchResultAdapter()
     private val presenter: PresenterSearchContract = SearchPresenter(this, createRepository())
+    private var totalCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +34,9 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
     }
 
     private fun setUI() {
+        toDetailsActivityButton.setOnClickListener {
+            startActivity(DetailsActivity.getIntent(this, totalCount))
+        }
         setQueryListener()
         setRecyclerView()
     }
@@ -39,7 +47,7 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
     }
 
     private fun setQueryListener() {
-        searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = searchEditText.text.toString()
                 if (query.isNotBlank()) {
@@ -58,8 +66,12 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         })
     }
 
-    private fun createRepository(): GitHubRepository {
-        return GitHubRepository(createRetrofit().create(GitHubApi::class.java))
+    private fun createRepository(): RepositoryContract {
+        return if (BuildConfig.TYPE == FAKE) {
+            FakeGitHubRepository()
+        } else {
+            GitHubRepository(createRetrofit().create(GitHubApi::class.java))
+        }
     }
 
     private fun createRetrofit(): Retrofit {
@@ -73,9 +85,14 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         searchResults: List<SearchResult>,
         totalCount: Int
     ) {
+        with(totalCountTextView) {
+            visibility = View.VISIBLE
+            text =
+                String.format(Locale.getDefault(), getString(R.string.results_count), totalCount)
+        }
+
+        this.totalCount = totalCount
         adapter.updateResults(searchResults)
-        resultsCountTextView.text =
-            String.format(Locale.getDefault(), getString(R.string.results_count), totalCount)
     }
 
     override fun displayError() {
@@ -96,5 +113,6 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     companion object {
         const val BASE_URL = "https://api.github.com"
+        const val FAKE = "FAKE"
     }
 }
