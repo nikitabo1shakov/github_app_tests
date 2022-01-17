@@ -1,4 +1,4 @@
-package com.nikitabolshakov.githubapptests.view
+package com.nikitabolshakov.githubapptests.view.search
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,8 +1,8 @@
-package com.nikitabolshakov.githubapptests.presenter
+package com.nikitabolshakov.githubapptests.presenter.search
 
 import com.nikitabolshakov.githubapptests.model.SearchResponse
 import com.nikitabolshakov.githubapptests.repository.GitHubRepository
-import com.nikitabolshakov.githubapptests.view.ViewContract
+import com.nikitabolshakov.githubapptests.view.search.ViewSearchContract
 import retrofit2.Response
 
 /**
@@ -14,9 +14,9 @@ import retrofit2.Response
  */
 
 internal class SearchPresenter internal constructor(
-    private val viewContract: ViewContract,
+    private val viewContract: ViewSearchContract,
     private val repository: GitHubRepository
-) : PresenterContract, GitHubRepository.GitHubRepositoryCallback {
+) : PresenterSearchContract, GitHubRepository.GitHubRepositoryCallback {
 
     override fun searchGitHub(searchQuery: String) {
         viewContract.displayLoading(true)
