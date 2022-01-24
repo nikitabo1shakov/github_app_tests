@@ -1,4 +1,4 @@
-package com.nikitabolshakov.githubapptests
+package com.nikitabolshakov.githubapptests.espresso
 
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
@@ -9,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nikitabolshakov.githubapptests.R
 import com.nikitabolshakov.githubapptests.view.details.DetailsActivity
 import junit.framework.TestCase
 import org.junit.After
