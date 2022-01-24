@@ -48,6 +48,14 @@ android {
             buildConfigField "String", "TYPE", '"REAL"'
         }
     }
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+        test {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+    }
 }
 
 dependencies {
@@ -80,4 +88,5 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
     // UI Automator
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0-alpha05'
 }
