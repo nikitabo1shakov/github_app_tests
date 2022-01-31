@@ -3,6 +3,7 @@ package com.nikitabolshakov.githubapptests.view.search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitabolshakov.githubapptests.R
 import com.nikitabolshakov.githubapptests.model.SearchResult
@@ -42,6 +43,9 @@ internal class SearchResultAdapter :
 
         fun bind(searchResult: SearchResult) {
             itemView.repositoryName.text = searchResult.fullName
+            itemView.repositoryName.setOnClickListener {
+                Toast.makeText(itemView.context, searchResult.fullName, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
